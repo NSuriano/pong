@@ -1,4 +1,4 @@
-// Variables de la pelota
+// Variables de la pelota 
 let pelotaX, pelotaY;
 let velocidadPelotaX = 6.7;
 let velocidadPelotaY = 7;
@@ -24,7 +24,7 @@ let puntajeComputadora = 0;
 const puntajeMaximo = 10;
 let ganador = '';
 
-// dimensiones del canvas
+// Dimensiones del canvas
 let canvasWidth = 0;
 let canvasHeight = 0;
 
@@ -32,44 +32,64 @@ let canvasHeight = 0;
 let fondo, perdedor, score, rebote;
 
 function preload() {
-  fondo = loadImage('./imagenes/fondo2.png');
-  imgPelota = loadImage('./imagenes/pokebola.png');
-  perdedor = loadSound('./sonidos/gameover.wav');
-  rebote = loadSound('./sonidos/rebotes.wav');
-  score = loadSound('./sonidos/score.wav');
+  fondo = loadImage('/imagenes/fondo2.png');
+  imgPelota = loadImage('/imagenes/pokebola.png');
+  perdedor = loadSound('/sonidos/gameover.wav');
+  rebote = loadSound('/sonidos/rebotes.wav');
+  score = loadSound('/sonidos/score.wav');
 }
 
 function setup() {
-  // Ajustar dimensiones del canvas según el tamaño de la pantalla
-  canvasWidth = windowWidth -20;
-  canvasHeight = windowHeight -20;
+  if (windowWidth <= 640 && windowHeight <= 480) {
+    canvasWidth = windowWidth - 16;
+    canvasHeight = windowHeight - 16;
+    createCanvas(canvasWidth, canvasHeight);
+    altoPaleta = height * 0.25;
+    createFullScreenButton();
 
-  createCanvas(canvasWidth, canvasHeight);
+  } else {
+    createCanvas(700, 350);
+    altoPaleta = 90;
+
+  }
   
-   // Ajustar el alto de la paleta en función de la altura del canvas
-  altoPaleta = height * 0.25;
-
-  // Verificar si la pantalla está en modo vertical
   if (windowWidth <= 480 && windowHeight > windowWidth) {
-   alert("Gira horizontalmente el dispositivo");
+    mostrarMensaje();
   }
 
-  // Inicializar el juego
+  
+  windowResized();
   reiniciarJuego();
   reglas();
 }
 
+function createFullScreenButton() {
+  let button = createButton('Full');
+  background(0);
+  fill(255);
+  textSize(40);
+  button.position(380, 15);
+  button.mousePressed(() => {
+    let fs = fullscreen();
+    fullscreen(!fs);
+  });
+}
+
 function windowResized() {
-  // Redimensionar el canvas cuando se cambia el tamaño de la ventana
   resizeCanvas(windowWidth, windowHeight);
-  canvasWidth = windowWidth;
-  canvasHeight = windowHeight;
   altoPaleta = height * 0.25;
 }
 
+function mostrarMensaje() {
+  textSize(32);
+  textAlign(CENTER);
+  fill(255);
+  background(0);
+  text('Gira el dispositivo', width / 2, height / 2);
+}
 
 function reglas() {
-  if (confirm("El primero en llegar a los 10 puntos, gana. Usa las flechas para deslizar tu raqueta")) {
+  if (confirm("El primero en llegar a los 10 puntos, gana. Usa las flechas para deslizar tu raqueta o toca la pantalla para moverla")) {
     loop();
   } else {
     noLoop();
@@ -104,12 +124,10 @@ function moverPelota() {
   pelotaY += velocidadPelotaY;
   anguloPelota += 1;
 
-  // Rebote en los bordes superior e inferior
   if (pelotaY < 0 || pelotaY > height) {
     velocidadPelotaY *= -1;
   }
 
-  // Verificar si la pelota sale de los límites izquierdo o derecho
   if (pelotaX < 0 || pelotaX > width) {
     if (pelotaX < 0) {
       puntajeComputadora++;
@@ -123,7 +141,6 @@ function moverPelota() {
     } else {
       perdedor.play();
     }
-
     reiniciarJuego();
   }
 }
@@ -147,10 +164,10 @@ function moverPaletaJugador() {
   paletaJugadorY = constrain(paletaJugadorY, 0, height - altoPaleta);
 }
 
-function mouseWheel(event) {
-  paletaJugadorY += event.delta > 0 ? velocidadJugador : -velocidadJugador;
-  paletaJugadorY = constrain(paletaJugadorY, 0, height - altoPaleta);
-} 
+function touchMoved() {
+  paletaJugadorY = constrain(mouseY - altoPaleta / 2, 0, height - altoPaleta);
+  return false;
+}
 
 function moverPaletaComputadora() {
   if (pelotaY > paletaComputadoraY + altoPaleta / 2) {
@@ -169,7 +186,6 @@ function mostrarPaleta(x, y) {
 
 function verificarColisionPaleta(x, y) {
   const dentroDelRangoVertical = (pelotaY > y) && (pelotaY < y + altoPaleta);
-
   if (
     (pelotaX - diametroPelota / 2 < x + anchoPaleta) &&
     (pelotaX + diametroPelota / 2 > x) &&
@@ -210,14 +226,12 @@ function verificarGanador() {
   }
 }
 
-// Función de narración del marcador
 function narrarMarcador() {
   let narracion = `${puntajeJugador} a ${puntajeComputadora}`;
   let utterance = new SpeechSynthesisUtterance(narracion);
   speechSynthesis.speak(utterance);
 }
 
-// Función de narración del ganador
 function narrarGanador(ganador) {
   let narracion = `${ganador} es el ganador!`;
   let utterance = new SpeechSynthesisUtterance(narracion);
