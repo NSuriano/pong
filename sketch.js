@@ -147,6 +147,11 @@ function moverPaletaJugador() {
   paletaJugadorY = constrain(paletaJugadorY, 0, height - altoPaleta);
 }
 
+function mouseWheel(event) {
+  paletaJugadorY += event.delta > 0 ? velocidadJugador : -velocidadJugador;
+  paletaJugadorY = constrain(paletaJugadorY, 0, height - altoPaleta);
+} 
+
 function moverPaletaComputadora() {
   if (pelotaY > paletaComputadoraY + altoPaleta / 2) {
     paletaComputadoraY += velocidadComputadora;
