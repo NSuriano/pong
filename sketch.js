@@ -33,7 +33,7 @@ let canvasHeight = 0;
 let fondo, perdedor, score, rebote;
 
 function preload() {
-  fondo = loadImage('../fondo2.png');
+  fondo = loadImage('././fondo2.png');
   imgPelota = loadImage('./imagenes/pokebola.png');
   perdedor = loadSound('./sonidos/gameover.wav');
   rebote = loadSound('./sonidos/rebotes.wav');
