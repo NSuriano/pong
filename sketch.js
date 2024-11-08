@@ -33,7 +33,7 @@ let canvasHeight = 0;
 let fondo, perdedor, score, rebote;
 
 function preload() {
-  fondo = loadImage('../imagenes/fondo2.png');
+  fondo = loadImage('../fondo2.png');
   imgPelota = loadImage('./imagenes/pokebola.png');
   perdedor = loadSound('./sonidos/gameover.wav');
   rebote = loadSound('./sonidos/rebotes.wav');
@@ -41,17 +41,20 @@ function preload() {
 }
 
 function setup() {
+  
+  createCanvas(canvasWidth, canvasHeight);
+  
   // Ajustar dimensiones del canvas según el tamaño de la pantalla
+  
   canvasWidth = windowWidth -16;
   canvasHeight = windowHeight -16;
 
-  createCanvas(canvasWidth, canvasHeight);
-
-
   // Ajustar el alto de la paleta en función de la altura del canvas
+  
   altoPaleta = height * 0.25;
 
   // Verificar si la pantalla está en modo vertical
+  
   if (windowWidth <= 480 && windowHeight > windowWidth) {
     mostrarMensaje();
   }
@@ -59,6 +62,20 @@ function setup() {
   // Inicializar el juego
   reiniciarJuego();
   reglas();
+}
+
+function draw() {
+  background(fondo);
+  verificarGanador();
+  moverPelota();
+  mostrarPelota();
+  moverPaletaJugador();
+  mostrarPaleta(10, paletaJugadorY);
+  moverPaletaComputadora();
+  mostrarPaleta(width - 20, paletaComputadoraY);
+  verificarColisionPaleta(10, paletaJugadorY);
+  verificarColisionPaleta(width - 20, paletaComputadoraY);
+  mostrarPuntaje();
 }
 
 function windowResized() {
@@ -87,19 +104,7 @@ function reglas() {
   }
 }
 
-function draw() {
-  background(fondo);
-  verificarGanador();
-  moverPelota();
-  mostrarPelota();
-  moverPaletaJugador();
-  mostrarPaleta(10, paletaJugadorY);
-  moverPaletaComputadora();
-  mostrarPaleta(width - 20, paletaComputadoraY);
-  verificarColisionPaleta(10, paletaJugadorY);
-  verificarColisionPaleta(width - 20, paletaComputadoraY);
-  mostrarPuntaje();
-}
+
 
 function reiniciarJuego() {
   pelotaX = width / 2;
@@ -216,6 +221,7 @@ function verificarGanador() {
 }
 
 // Función de narración del marcador
+
 function narrarMarcador() {
   let narracion = `${puntajeJugador} a ${puntajeComputadora}`;
   let utterance = new SpeechSynthesisUtterance(narracion);
@@ -223,6 +229,7 @@ function narrarMarcador() {
 }
 
 // Función de narración del ganador
+
 function narrarGanador(ganador) {
   let narracion = `${ganador} es el ganador!`;
   let utterance = new SpeechSynthesisUtterance(narracion);
