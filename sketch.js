@@ -41,8 +41,8 @@ function preload() {
 
 function setup() {
   // Ajustar dimensiones del canvas según el tamaño de la pantalla
-  canvasWidth = windowWidth -16;
-  canvasHeight = windowHeight -16;
+  canvasWidth = windowWidth -20;
+  canvasHeight = windowHeight -20;
 
   createCanvas(canvasWidth, canvasHeight);
   
@@ -51,7 +51,7 @@ function setup() {
 
   // Verificar si la pantalla está en modo vertical
   if (windowWidth <= 480 && windowHeight > windowWidth) {
-    mostrarMensaje();
+   alert("Gira horizontalmente el dispositivo");
   }
 
   // Inicializar el juego
@@ -67,14 +67,6 @@ function windowResized() {
   altoPaleta = height * 0.25;
 }
 
-function mostrarMensaje() {
-  textSize(32);
-  textAlign(CENTER);
-  fill(255);
-  background(0);
-  let text = "Gira el dispositivo";
-  text(text, width / 2, height / 2);
-}
 
 function reglas() {
   if (confirm("El primero en llegar a los 10 puntos, gana. Usa las flechas para deslizar tu raqueta")) {
