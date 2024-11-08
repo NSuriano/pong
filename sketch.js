@@ -33,10 +33,10 @@ let fondo, perdedor, score, rebote;
 
 function preload() {
   fondo = loadImage('/imagenes/fondo2.png');
-  imgPelota = loadImage('/imagenes/pokebola.png');
-  perdedor = loadSound('/sonidos/gameover.wav');
-  rebote = loadSound('/sonidos/rebotes.wav');
-  score = loadSound('/sonidos/score.wav');
+  imgPelota = loadImage('./imagenes/pokebola.png');
+  perdedor = loadSound('./sonidos/gameover.wav');
+  rebote = loadSound('./sonidos/rebotes.wav');
+  score = loadSound('./sonidos/score.wav');
 }
 
 function setup() {
