@@ -5,7 +5,7 @@ let velocidadPelotaY = 7;
 let diametroPelota = 26;
 let imgPelota;
 let anguloPelota = 0;
-let body = document.querySelector('#body');
+
 
 // Variables de las paletas
 const anchoPaleta = 10;
@@ -46,7 +46,7 @@ function setup() {
   canvasHeight = windowHeight -16;
 
   createCanvas(canvasWidth, canvasHeight);
-  body = canvas;
+
 
   // Ajustar el alto de la paleta en función de la altura del canvas
   altoPaleta = height * 0.25;
